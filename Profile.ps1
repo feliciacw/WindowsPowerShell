@@ -110,3 +110,28 @@ function Start-NewScope
 	}
 	$host.EnterNestedPrompt()
 }
+
+# 'cause shutdown commands are too long and hard to type...
+function Restart
+{
+	shutdown /r /t 1
+}
+
+# --------------------------------------------------------------------------
+# EXO Helpers
+# --------------------------------------------------------------------------
+
+function dev($project)
+{
+	cd "$(get-content Env:INETROOT)\sources\dev\$project"
+}
+
+function test($project)
+{
+	cd "$(get-content Env:INETROOT)\sources\test\$project"
+}
+
+function bcc
+{
+	build -Cc
+}
