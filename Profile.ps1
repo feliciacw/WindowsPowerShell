@@ -28,11 +28,8 @@ Import-Module Profile
 # ---------------------------------------------------------------------------
 # Custom Aliases
 # ---------------------------------------------------------------------------
-set-alias unset      remove-variable
-set-alias mo         measure-object
 set-alias eval       invoke-expression
 set-alias n          notepad.exe
-set-alias vi         vim.exe
 
 # ---------------------------------------------------------------------------
 # Visuals
@@ -42,6 +39,7 @@ set-variable -Scope Global WindowTitle ''
 function prompt
 {
 	$local:pathObj = (get-location)
+	$local:test = $pathObj.P
 	$local:path    = $pathObj.Path
 	$local:drive   = $pathObj.Drive.Name
 
@@ -69,14 +67,14 @@ function prompt
  
 	if($NestedPromptLevel)
 	{
-		Write-Host -NoNewline -ForeGroundColor Green "$NestedPromptLevel-";
+		Write-Host -NoNewline -ForeGroundColor White "$NestedPromptLevel-";
 	}
 	
 	$private:h = @(Get-History);
 	$private:nextCommand = $private:h[$private:h.Count - 1].Id + 1;
-	Write-Host -NoNewline -ForeGroundColor Red "${private:nextCommand}|";	 
+	Write-Host -NoNewline -ForeGroundColor Green "${private:nextCommand}|";
 	
-	Write-Host -NoNewline -ForeGroundColor Blue "${drive}";
+	Write-Host -NoNewline -ForeGroundColor Magenta "${drive}";
 	Write-Host -NoNewline -ForeGroundColor White ":";
 	Write-Host -NoNewline -ForeGroundColor White "$path";
 	
@@ -111,10 +109,4 @@ function Start-NewScope
 		}
 	}
 	$host.EnterNestedPrompt()
-}
-
-# 'cause shutdown commands are too long and hard to type...
-function Restart
-{
-	shutdown /r /t 1
 }
