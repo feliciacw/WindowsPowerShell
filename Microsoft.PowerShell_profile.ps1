@@ -7,8 +7,12 @@
 # ---------------------------------------------------------------------------
 if ($host.Name -eq 'ConsoleHost') {
     Set-PSReadLineOption -MaximumHistoryCount 4000
-    Set-PSReadLineOption -PredictionSource History
     Set-PSReadLineOption -HistoryNoDuplicates:$true
+
+    # PredictionSource requires PSReadLine 2.1+
+    if ((Get-Module PSReadLine).Version -ge [version]'2.1.0') {
+        Set-PSReadLineOption -PredictionSource History
+    }
 
     Set-PSReadLineKeyHandler -Key UpArrow   -Function HistorySearchBackward
     Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
@@ -19,9 +23,6 @@ if ($host.Name -eq 'ConsoleHost') {
 # ---------------------------------------------------------------------------
 # Modules
 # ---------------------------------------------------------------------------
-
-# Fuzzy finder (Ctrl+T file search, Ctrl+R history search)
-Import-Module PSFzf -ArgumentList 'Ctrl+T','Ctrl+R' -ErrorAction SilentlyContinue
 
 # Git prompt support
 Import-Module Posh-Git -ErrorAction SilentlyContinue
@@ -41,10 +42,8 @@ Set-Alias n notepad.exe
 # Prompt
 # ---------------------------------------------------------------------------
 function prompt {
-    $dir = Split-Path -Leaf (Get-Location)
-    if (-not $dir) { $dir = (Get-Location).Path }
-
-    $host.UI.RawUI.WindowTitle = (Get-Location).Path
+    $dir = (Get-Location).Path
+    $host.UI.RawUI.WindowTitle = $dir
 
     $gitBranch = ''
     if (Get-Command git -ErrorAction SilentlyContinue) {
@@ -52,6 +51,7 @@ function prompt {
         if ($branch) { $gitBranch = " ($branch)" }
     }
 
+    Write-Host -NoNewline -ForegroundColor Green "PS "
     Write-Host -NoNewline -ForegroundColor Cyan $dir
     Write-Host -NoNewline -ForegroundColor Yellow $gitBranch
     return ' > '
