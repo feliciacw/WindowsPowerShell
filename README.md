@@ -1,8 +1,15 @@
 # WindowsPowerShell
-A flexible PowerShell profile and set of extensions for development.
 
-Want to pimp your windows machine, with built in Git support, easier interactions
-with background jobs, improved string & stream handling, and a metric ton of fancy 
-configuration -- that makes your machine fly?
+A clean, minimal PowerShell profile for everyday development.
 
-Clone WindowsPowerShell to your ~/Documents/ directory, and have at it!
+## What's Included
+
+- **PSReadLine** — predictive IntelliSense, history search (↑/↓), menu tab completion
+- **PSFzf** — fuzzy file finder (Ctrl+T) and reverse history search (Ctrl+R)
+- **Posh-Git** — git branch/status in the prompt
+- **Terminal-Icons** — colorized directory listings with file-type icons
+- **Simple prompt** — shows current directory and git branch
+
+## Setup
+
+Clone this repo to your `~/Documents/WindowsPowerShell/` directory (Windows PowerShell) or symlink it for PowerShell 7+.
